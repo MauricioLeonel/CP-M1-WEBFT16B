@@ -37,8 +37,26 @@ const {
 //  - Caso que devuelve false --> isAncestor(genealogyTree, "Jacqueline Bouvier", "Abigail Simpson")
 //  [Observar los tests para otros casos]
 
-var isAncestor = function(genealogyTree, ancestor, descendant){
+var isAncestor = function(genealogyTree, ancestor, descendant,queue=[]){
   // Tu código aca:
+  //armo arreglo para buscar descendientes
+  for(key in genealogyTree){
+    if(key === ancestor){
+      for(var i = 0 ; i< genealogyTree[key].length ; i++){
+        queue.push(genealogyTree[key][i])
+      }
+    }
+  }
+
+  while(queue.length>0){
+    if(queue[0]===descendant){
+      return true
+    }else{
+      return isAncestor(genealogyTree,queue.shift(),descendant,queue)
+    }
+  }
+
+  return false;
 
 }
 
@@ -78,6 +96,17 @@ var isAncestor = function(genealogyTree, ancestor, descendant){
 function secuenciaHenry(obj, n) {
   // Tu código aca:
 
+  if(n < 0){
+    return null;
+  }
+  if(n === 0){
+    return 2;
+  }
+  if(n == 1){
+    return 9;
+  }
+  return secuenciaHenry(obj,n-1) * secuenciaHenry(obj,n-2) - secuenciaHenry(obj,n-2)
+
 }
 
 // ---------------------
@@ -98,7 +127,17 @@ function secuenciaHenry(obj, n) {
 
 LinkedList.prototype.size = function(){
   // Tu código aca:
-
+  var tam = 0;
+  var current = this.head
+  if(!current){
+    return 0
+  }else{
+    while(current){
+      tam++;
+      current = current.next
+    }
+  }
+  return tam;
 }
 
 
@@ -112,13 +151,34 @@ LinkedList.prototype.size = function(){
 // Ejemplo 1:
 //    Suponiendo que la lista actual es: Head --> [1] --> [2] --> [3] --> [4] --> [5]
 //    lista.switchPos(1,3);
-//    Ahora la lista quedaría: Head --> [1] --> [4] --> [3] --> [2] --> [5]
+//    Ahora la lista quedaría: Head -->           [1] --> [4] --> [3] --> [2] --> [5]
 //    y la función debería haber devuelto true
 // Ejemplo 2:
 //    Suponiendo que se pide una posición inválida: removeFromPos(8) --> false
 
 LinkedList.prototype.switchPos = function(pos1, pos2){
   // Tu código aca:
+  var cont = 0;
+  var arr=[];
+  var current = this.head;
+  if(pos1 < 0|| pos2 < 0 || !current){
+    return false
+  }
+  while(current){
+    if(pos1 === cont || pos2 === cont && pos1 !== pos2){
+      arr.push(current)
+    }
+    cont++;
+    current = current.next;
+  }
+  if(arr.length > 1 && arr[0] !== arr[1]){
+    var aux = arr[0].value
+    arr[0].value = arr[1].value;
+    arr[1].value = aux
+    return true;
+  }
+
+  return false
 
 }
 
@@ -135,7 +195,22 @@ LinkedList.prototype.switchPos = function(pos1, pos2){
 // Continuando con el nodo 2 de la lista 2, conectandose con el nodo 2 de la lista 2.
 var mergeLinkedLists = function(linkedListOne, linkedListTwo){
   // Tu código aca:
+  var nuevalista = new LinkedList();
+  var arreglo1=[],arreglo2=[];
+  var current1=linkedListOne.head, current2=linkedListTwo.head;
+  while(current1||current2){
+    arreglo1.push(current1.value)
+    current1 = current1.next
+    arreglo2.push(current2.value)
+    current2 = current2.next
+  }
 
+  for(var i = 0; i<arreglo1.length;i++){
+    nuevalista.add(arreglo1[i]);
+    nuevalista.add(arreglo2[i]);
+  }
+
+  return nuevalista;
 }
 
 
@@ -207,7 +282,14 @@ var cardGame = function(playerOneCards, playerTwoCards){
 
 BinarySearchTree.prototype.height = function(){
   // Tu código aca:
-
+  if(!this.left && !this.right){
+    return 1
+  }
+  if(this.left){
+    return 1 + this.left.height()
+  }else {
+    return 1 + this.right.height()
+  }
 }
 
 
@@ -229,7 +311,24 @@ BinarySearchTree.prototype.height = function(){
 
 var binarySearch = function (array, target) {
   // Tu código aca:
+  var inicio = 0;
+  var fin = array.length;
+  var pivot = Math.floor(array.length/2);
 
+  while(inicio < pivot && pivot < fin){
+    if(array[pivot] === target){
+      return pivot;
+    }
+    if(array[pivot] > target){
+      fin = pivot 
+      pivot = Math.floor((fin+inicio)/2);
+    }else if(array[pivot] < target){
+      inicio = pivot; 
+      pivot = Math.floor((fin+inicio)/2)
+    }
+  
+  }
+  return -1;
 }
 
 // EJERCICIO 9
@@ -257,7 +356,27 @@ var binarySearch = function (array, target) {
 
 var specialSort = function(array, orderFunction) {
   // Tu código aca:
+  //var altura = array[].height
+  var orden = ''
+  if(orderFunction(array[0],array[1]) === 1 ){
+    orden = age
+  }else{
+    orden =
+  }
 
+
+  for(var i =0; i < array.length-1;i++){
+    for(var j = 1; j < array.length-i;j++){
+      if(array[j-1].[orden] > array[j].height){
+        aux = array[j-1];
+        array[j-1] = array[j];
+        array[j] = array[j-1];
+      }
+    }
+  }
+
+
+  var devol =  orderFunction()
 }
 
 // ----- Closures -----
@@ -290,7 +409,23 @@ var specialSort = function(array, orderFunction) {
 
 function closureDetect(symptoms, min) {
   // Tu código aca:
+  return function(arg1){
+    var cont = 0;
 
+    for(var i=0 ; i < arg1.symptoms.length;i++){
+      for(var j =0;j < symptoms.length;j++){
+        if(arg1.symptoms[i] === symptoms[j]){
+          cont++;
+        }
+      }
+    }
+    console.log(cont,min)
+    if(cont >= min){
+      return true
+    }else{
+      return false;
+    }
+  }
 }
 
 // -------------------

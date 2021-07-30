@@ -358,7 +358,7 @@ var specialSort = function(array, orderFunction) {
   // Tu código aca:
   
 
-  if(orderFunction(array[0],array[1])=== 1){
+  if(orderFunction.name === 'functionOne'){
     //ascendente
     for(var i =0;i<array.length-1;i++){
       for(var k =1 ; k < array.length-i ; k++){
@@ -369,13 +369,13 @@ var specialSort = function(array, orderFunction) {
         }
       }
     }
-  }else if(orderFunction(array[0],array[1])=== -1){
+  }else if(orderFunction.name === 'functionOneBis'){
     for(var i =0;i<array.length-1;i++){
       for(var k =1 ; k < array.length-i ; k++){
         if(array[k-1].age < array[k].age){
           aux = array[k-1];
           array[k-1]=array[k]
-          array[k]=aux;
+          array[k]=aux
         }
       }
     }
@@ -393,6 +393,7 @@ var specialSort = function(array, orderFunction) {
   }
 
   return array
+  
 }
 
 // ----- Closures -----

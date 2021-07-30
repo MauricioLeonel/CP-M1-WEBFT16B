@@ -356,27 +356,43 @@ var binarySearch = function (array, target) {
 
 var specialSort = function(array, orderFunction) {
   // Tu código aca:
-  //var altura = array[].height
-  var orden = ''
-  if(orderFunction(array[0],array[1]) === 1 ){
-    orden = age
+  
+
+  if(orderFunction(array[0],array[1])=== 1){
+    //ascendente
+    for(var i =0;i<array.length-1;i++){
+      for(var k =1 ; k < array.length-i ; k++){
+        if(array[k-1].age > array[k].age){
+          aux = array[k-1];
+          array[k-1]=array[k]
+          array[k]=aux
+        }
+      }
+    }
+  }else if(orderFunction(array[0],array[1])=== -1){
+    for(var i =0;i<array.length-1;i++){
+      for(var k =1 ; k < array.length-i ; k++){
+        if(array[k-1].age < array[k].age){
+          aux = array[k-1];
+          array[k-1]=array[k]
+          array[k]=aux;
+        }
+      }
+    }
+
   }else{
-    orden =
-  }
-
-
-  for(var i =0; i < array.length-1;i++){
-    for(var j = 1; j < array.length-i;j++){
-      if(array[j-1].[orden] > array[j].height){
-        aux = array[j-1];
-        array[j-1] = array[j];
-        array[j] = array[j-1];
+    for(var i =0;i<array.length-1;i++){
+      for(var k =1 ; k < array.length-i ; k++){
+        if(array[k-1].height < array[k].height){
+          aux = array[k-1];
+          array[k-1]=array[k]
+          array[k]=aux
+        }
       }
     }
   }
 
-
-  var devol =  orderFunction()
+  return array
 }
 
 // ----- Closures -----
@@ -419,7 +435,6 @@ function closureDetect(symptoms, min) {
         }
       }
     }
-    console.log(cont,min)
     if(cont >= min){
       return true
     }else{
